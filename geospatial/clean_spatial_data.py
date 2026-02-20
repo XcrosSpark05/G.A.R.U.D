@@ -1,32 +1,42 @@
 import pandas as pd
 import json
+import numpy as np
 
-# 1. Load your CSV (Replace 'your_file.csv' with the actual name)
-df = pd.read_csv('geospatial/data/raw/your_file.csv')
+# 1. Load your actual file
+file_path = 'geospatial/data/raw/accident_prediction_india.csv'
+df = pd.read_csv(file_path)
 
-# 2. Aggressive Cleaning
-df = df.dropna(subset=['latitude', 'longitude']) # Drop rows without coordinates
+# 2. EMERGENCY: Since we lack Lat/Lon, we generate random points 
+# within India's bounds for the visualization MVP.
+# (In a real scenario, we'd use a Geocoding API, but we have 10 hours left!)
+np.random.seed(42)
+df['latitude'] = np.random.uniform(8.4, 37.6, len(df))
+df['longitude'] = np.random.uniform(68.1, 97.4, len(df))
 
-# 3. Convert to GeoJSON format
-def df_to_geojson(df, properties, lat='latitude', lon='longitude'):
+# 3. Standardize column names for the Data Contract
+df = df.rename(columns={
+    'Accident Severity': 'severity',
+    'Weather Conditions': 'weather',
+    'Road Type': 'road_type'
+})
+
+# 4. Convert to GeoJSON
+def df_to_geojson(df, properties):
     geojson = {'type':'FeatureCollection', 'features':[]}
     for _, row in df.iterrows():
-        feature = {'type':'Feature',
-                   'properties':{},
-                   'geometry':{'type':'Point',
-                               'coordinates':[]}}
-        feature['geometry']['coordinates'] = [row[lon], row[lat]]
-        for prop in properties:
-            feature['properties'][prop] = row[prop]
+        feature = {
+            'type':'Feature',
+            'properties':{prop: row[prop] for prop in properties},
+            'geometry':{'type':'Point', 'coordinates':[row['longitude'], row['latitude']]}
+        }
         geojson['features'].append(feature)
     return geojson
 
-# Specify which columns you want to keep (e.g., severity, weather, road_type)
-cols_to_keep = ['severity', 'road_type'] 
-data_geojson = df_to_geojson(df, cols_to_keep)
+cols = ['severity', 'weather', 'road_type', 'State Name', 'City Name']
+data_geojson = df_to_geojson(df, cols)
 
-# 4. Save to Processed folder
+# 5. Save
 with open('geospatial/data/processed/accidents_base.geojson', 'w') as f:
     json.dump(data_geojson, f)
 
-print("Successfully created accidents_base.geojson")
+print("SUCCESS: accidents_base.geojson created with simulated coordinates for MVP.")
