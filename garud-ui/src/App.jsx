@@ -7,7 +7,7 @@ function App() {
   const [weather, setWeather] = useState('clear');
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black font-sans">
+    <div className="flex h-screen w-full overflow-hidden font-sans bg-slate-950">
       {/* Sidebar */}
       <Sidebar 
         time={time} 
@@ -16,25 +16,33 @@ function App() {
         setWeather={setWeather} 
       />
       
-      {/* Main Map Area */}
-      <main className="flex-1 relative h-full">
-        {/* Live View HUD — moved to bottom-left */}
-        <div className="pointer-events-none absolute bottom-6 left-6 z-[2000]">
-          <div className="pointer-events-auto bg-black/70 backdrop-blur-xl border border-slate-700 px-4 py-3 rounded-xl shadow-2xl">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <h2 className="text-[11px] font-semibold text-emerald-400 uppercase tracking-widest">
+      {/* Main Map Area - Forced Relative Positioning */}
+      <main className="flex-1 h-full" style={{ position: 'relative' }}>
+        
+        {/* LIVE VIEW HUD - FORCED TO BOTTOM LEFT USING INLINE STYLES */}
+        <div style={{ position: 'absolute', bottom: '24px', left: '24px', zIndex: 2000, pointerEvents: 'none' }}>
+          
+          {/* Forced dark background and border */}
+          <div style={{ 
+            pointerEvents: 'auto', 
+            backgroundColor: 'rgba(15, 23, 42, 0.9)', /* Dark slate background */
+            border: '1px solid #334155', 
+            padding: '12px 16px', 
+            borderRadius: '12px', 
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' 
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <span style={{ display: 'inline-block', height: '8px', width: '8px', borderRadius: '50%', backgroundColor: '#34d399' }}></span>
+              <h2 style={{ fontSize: '11px', fontWeight: 'bold', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>
                 Live View
               </h2>
             </div>
-            <p className="text-sm text-slate-100 font-medium whitespace-nowrap">
+            <p style={{ fontSize: '14px', color: '#f1f5f9', fontWeight: '500', whiteSpace: 'nowrap', margin: 0 }}>
               NHAI National Network: Active
             </p>
           </div>
-        </div>
 
-        {/* Subtle Gradient Overlay (kept below HUD) */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 z-[300]" />
+        </div>
 
         <RiskMap time={time} weather={weather} />
       </main>
