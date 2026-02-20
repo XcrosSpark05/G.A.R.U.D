@@ -21,4 +21,4 @@ def run_clustering(input_csv, output_file):
 
 if __name__ == "__main__":
     # We will get 'accidents_raw.csv' from Member B/D shortly
-    print("Clustering script ready. Waiting for data...")
+    print("Clustering script ready. Waiting for data...")   
