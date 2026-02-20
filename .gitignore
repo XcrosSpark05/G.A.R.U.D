@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+
+# Node (Frontend)
+node_modules/
+build/
+dist/
+.env
+
+# Data (Ignore large raw datasets if they exceed GitHub limits)
+# accidents_raw.csv
+
+# OS generated files
+.DS_Store
+Thumbs.db
