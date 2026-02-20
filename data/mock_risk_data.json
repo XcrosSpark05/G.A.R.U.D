@@ -1,0 +1,23 @@
+[
+  {
+    "latitude": 19.0760,
+    "longitude": 72.8777,
+    "risk_level": "Critical",
+    "factors": ["Heavy Traffic", "Poor Visibility", "Sharp Curve"],
+    "intensity": 0.95
+  },
+  {
+    "latitude": 19.1234,
+    "longitude": 72.9000,
+    "risk_level": "Medium",
+    "factors": ["Sun Glare"],
+    "intensity": 0.45
+  },
+  {
+    "latitude": 19.2100,
+    "longitude": 73.0100,
+    "risk_level": "High",
+    "factors": ["Rainy Conditions", "Potholes"],
+    "intensity": 0.78
+  }
+]
