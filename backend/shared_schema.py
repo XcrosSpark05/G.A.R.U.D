@@ -1,9 +1,11 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Dict
 
 class RiskScore(BaseModel):
     latitude: float
     longitude: float
-    risk_level: str # Low, Medium, High, or Critical
-    factors: List[str] # e.g. ["Sun Glare", "Heavy Rain", "Poor Visibility"]
-    intensity: float # Severity from 0.0 to 1.0
+    risk_level: str  # e.g., Low, Medium, High, CRITICAL
+    factors: List[str]
+    intensity: float
+    interventions: List[str]  # New: Recommended actions
+    impact_metrics: Dict[str, float]  # New: Lives saved, cost avoided
