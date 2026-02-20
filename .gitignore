@@ -12,7 +12,7 @@ ENV/
 node_modules/
 build/
 dist/
-.env
+
 
 # Data (Ignore large raw datasets if they exceed GitHub limits)
 # accidents_raw.csv
